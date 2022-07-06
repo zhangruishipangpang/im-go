@@ -11,9 +11,10 @@ import (
 )
 
 func TestNullPath(t *testing.T) {
-	//point()
+	point()
 	//p1()
-	p2()
+	//p2()
+
 }
 
 func p1() {
@@ -32,7 +33,11 @@ func p2() {
 }
 
 func point() {
-	msg := message.NewMessage(1, 2, " PING ")
+	msg := M1{
+		From: 1,
+		Dest: 2,
+		Data: 3,
+	}
 	buf := &bytes.Buffer{}
 	err := binary.Write(buf, binary.BigEndian, msg)
 	if err != nil {
@@ -40,5 +45,31 @@ func point() {
 	}
 	fmt.Println(buf.Bytes())
 	fmt.Println(" data : ", string(buf.Bytes()))
+}
 
+func point2() {
+	msg := M1{
+		From: 1,
+		Dest: 2,
+		Data: 3,
+	}
+	buf := &bytes.Buffer{}
+	err := binary.Write(buf, binary.BigEndian, msg)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println(buf.Bytes())
+	fmt.Println(" data : ", string(buf.Bytes()))
+}
+
+type M1 struct {
+	From uint32 `json:"from"` // 消息来源
+	Dest uint32 `json:"dest"` // 消息目标
+	Data uint32 `json:"data"` // 消息体
+}
+
+type M2 struct {
+	From uint32 `json:"from"` // 消息来源
+	Dest uint32 `json:"dest"` // 消息目标
+	Data string `json:"data"` // 消息体
 }
