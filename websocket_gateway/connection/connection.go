@@ -32,14 +32,15 @@ type Connection struct {
 	property map[string]interface{}
 }
 
+// NewConnection 创建一个链接结构体
 func NewConnection(rw http.ResponseWriter, r *http.Request, user user.User) *Connection {
+	log.Printf(" 请求创建ws链接! ")
+
 	connection := &Connection{
 		ctx:  context.Background(),
 		user: user,
 	}
 
-	fmt.Println(" 来链接了... ")
-	// 创建链接
 	connW, err := upgrader.Upgrade(rw, r, nil)
 	if err != nil {
 		fmt.Println(" 链接异常： ", err)

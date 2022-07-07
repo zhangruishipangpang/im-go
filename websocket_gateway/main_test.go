@@ -6,15 +6,32 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/changan/websocket_gateway/message"
+	"github.com/changan/websocket_gateway/register_center"
+	"github.com/nacos-group/nacos-sdk-go/vo"
 	"testing"
 	"unsafe"
 )
 
 func TestNullPath(t *testing.T) {
-	point()
+	//point()
 	//p1()
 	//p2()
+	tNacos()
+}
 
+func tNacos() {
+	nacos := register_center.Nacos{}
+	nacos.RegisterInstance()
+	instance, err := nacos.Client.SelectOneHealthyInstance(vo.SelectOneHealthInstanceParam{
+		//Clusters:    nil,
+		ServiceName: "nacos.test.3",
+		//GroupName:   "",
+	})
+	if err != nil {
+		return
+	}
+
+	fmt.Println(" 获取到的实例信息： ", instance)
 }
 
 func p1() {
