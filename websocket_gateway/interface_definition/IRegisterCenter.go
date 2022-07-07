@@ -1,4 +1,4 @@
-package _interface
+package interface_definition
 
 import (
 	"github.com/nacos-group/nacos-sdk-go/model"

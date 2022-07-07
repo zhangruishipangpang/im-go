@@ -17,14 +17,20 @@ type Nacos struct {
 	Client naming_client.INamingClient
 }
 
+var NacosClient Nacos = Nacos{}
+
+func GetNacosClient() *Nacos {
+	return &NacosClient
+}
+
 func (n *Nacos) RegisterInstance() (bool, error) {
 	// 创建clientConfig的另一种方式
 	clientConfig := *constant.NewClientConfig(
 		constant.WithNamespaceId(""), //当namespace是public时，此处填空字符串。
 		constant.WithTimeoutMs(5000),
 		constant.WithNotLoadCacheAtStart(true),
-		//constant.WithLogDir(""),
-		//constant.WithCacheDir("/tmp/nacos/cache"),
+		constant.WithLogDir("D:\\PROJECT\\go_project\\im_go\\log"),
+		constant.WithCacheDir("D:\\PROJECT\\go_project\\im_go\\cache"),
 		constant.WithLogLevel("debug"),
 		constant.WithUsername("nacos"),
 		constant.WithPassword("admin123"),

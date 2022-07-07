@@ -8,6 +8,7 @@ import (
 	"github.com/changan/websocket_gateway/message"
 	"github.com/changan/websocket_gateway/register_center"
 	"github.com/nacos-group/nacos-sdk-go/vo"
+	"strconv"
 	"testing"
 	"unsafe"
 )
@@ -16,7 +17,7 @@ func TestNullPath(t *testing.T) {
 	//point()
 	//p1()
 	//p2()
-	tNacos()
+	//tNacos()
 }
 
 func tNacos() {
@@ -32,6 +33,7 @@ func tNacos() {
 	}
 
 	fmt.Println(" 获取到的实例信息： ", instance)
+	fmt.Println(instance.Ip + ":" + strconv.Itoa(int(instance.Port)))
 }
 
 func p1() {
@@ -90,3 +92,12 @@ type M2 struct {
 	Dest uint32 `json:"dest"` // 消息目标
 	Data string `json:"data"` // 消息体
 }
+
+/*
+
+func (auth *Auth) checkToken(token string) bool {
+	body := TokenBody{token: "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c111112VyX25hbWUiOiJ6aGFuZ3NhbiIsInNjb3BlIjpbImFsbCJdLCJTVXNlciI6eyJwYXNzd29yZCI6bnVsbCwidXNlcm5hbWUiOiJ6aGFuZ3NhbiIsImF1dGhvcml0aWVzIjpbeyJhdXRob3JpdHkiOiJhZG1pbiJ9XSwiYWNjb3VudE5vbkV4cGlyZWQiOnRydWUsImFjY291bnROb25Mb2NrZWQiOnRydWUsImNyZWRlbnRpYWxzTm9uRXhwaXJlZCI6dHJ1ZSwiZW5hYmxlZCI6dHJ1ZX0sImV4cCI6MTY0ODY5MTY5NSwiYXV0aG9yaXRpZXMiOlsiYWRtaW4iXSwianRpIjoiYTExNDE5ODgtODcyYy00NTE2LTk5YWMtMjQ3MDVlZjRmNWI0IiwiY2xpZW50X2lkIjoiYmFpZHUifQ.G32br6PTm_EEW6R02l_Ws8SRqt_o8fl59ATwGqPdd5tSSJeWKMVdebuQWvMHy5HzzUO7cl6rwtYoflh9UgwhQnNY_ivYGM_SZVGLss1625WS87fySlEn17hNnkU461bxdJKSBIzKrDE-zfJ-Ody_RggaTcNPGpZVeE2ectHy9ZUUPQB_aUznaWZxolkN2eZ1wgb2Ruq7APsqqOr70IFs55c8mCsmhlbd8yBenEPLwJP2igyGcPRsmKQqdEnsqk1NjIBXh_UPVwlXbPVOa0Y-Q5GzTwPAYtoMIDue-G3U1kBNVwDNUiPVGRN7ZlG92Ivk5CFe5td_WjHGXLj0WWLzKw"}
+	responseBody := http.InvokeRequestFromServiceName("auth-serve", "/auth/check_token", body, nil)
+	return responseBody != (http.ResponseBody{}) && responseBody.Code == 200
+}
+*/

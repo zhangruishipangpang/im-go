@@ -29,7 +29,7 @@ func main() {
 
 // 注册服务
 func registerService() {
-	nacos := register_center.Nacos{}
+	nacos := register_center.GetNacosClient()
 	nacos.RegisterInstance()
 }
 
