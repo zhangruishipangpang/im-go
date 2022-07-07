@@ -1,4 +1,4 @@
-package register_center
+package register
 
 import (
 	"github.com/nacos-group/nacos-sdk-go/clients"

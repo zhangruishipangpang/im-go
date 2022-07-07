@@ -14,6 +14,7 @@ type Message struct {
 const (
 	TEXT    = 1 // 文本消息
 	PICTURE = 2 // 图片消息
+	TOKEN   = 3 // token
 )
 
 func NewMessage(from uint32, dest uint32, data string) *Message {

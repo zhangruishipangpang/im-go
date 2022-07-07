@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"github.com/changan/websocket_gateway/auth"
 	"github.com/changan/websocket_gateway/message"
 	"github.com/changan/websocket_gateway/user"
 	"github.com/gorilla/websocket"
@@ -30,6 +31,8 @@ type Connection struct {
 	user user.User // 用户
 
 	property map[string]interface{}
+
+	isLogin bool
 }
 
 // NewConnection 创建一个链接结构体
@@ -55,11 +58,23 @@ func NewConnection(rw http.ResponseWriter, r *http.Request, user user.User) *Con
 func (conn *Connection) Start() {
 	log.Printf(" 获取一个新链接，remote : %s ", conn.conn.RemoteAddr())
 
+	defer conn.Close()
 	for {
-		_, err := conn.ReadMsg()
+		msg, err := conn.ReadMsg()
 		if err != nil {
 			log.Print(" 读取异常1：", err)
 			return
+		}
+
+		if msg.DataType == message.TOKEN {
+			token := msg.Data
+			authService := auth.AuthService{}
+			checkToken, errMsg := authService.CheckToken(token)
+			if !checkToken {
+				sendMsg := message.NewMessage(msg.Dest, msg.From, errMsg)
+				conn.SendMsg(sendMsg)
+				panic(errMsg)
+			}
 		}
 
 		time.Sleep(5 * time.Second)

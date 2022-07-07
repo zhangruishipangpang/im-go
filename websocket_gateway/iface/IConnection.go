@@ -1,4 +1,4 @@
-package interface_definition
+package iface
 
 import (
 	"github.com/changan/websocket_gateway/message"

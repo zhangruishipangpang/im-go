@@ -3,7 +3,7 @@ package main
 import (
 	"flag"
 	"github.com/changan/websocket_gateway/connection"
-	"github.com/changan/websocket_gateway/register_center"
+	"github.com/changan/websocket_gateway/register"
 	"github.com/changan/websocket_gateway/user"
 	"html/template"
 	"log"
@@ -29,7 +29,7 @@ func main() {
 
 // 注册服务
 func registerService() {
-	nacos := register_center.GetNacosClient()
+	nacos := register.GetNacosClient()
 	nacos.RegisterInstance()
 }
 

@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"github.com/changan/websocket_gateway/register_center"
+	"github.com/changan/websocket_gateway/register"
 	"github.com/nacos-group/nacos-sdk-go/vo"
 	"io/ioutil"
 	"net/http"
@@ -68,7 +68,7 @@ func InvokeRequest(url, method string, body interface{}, header map[string]strin
 }
 
 func InvokeRequestFromServiceName(serviceName, path string, body interface{}, header map[string]string) ResponseBody {
-	client := register_center.GetNacosClient()
+	client := register.GetNacosClient()
 	instance, err := client.SelectOneHealthyInstance(vo.SelectOneHealthInstanceParam{ServiceName: serviceName})
 	if err != nil {
 		panic(err)

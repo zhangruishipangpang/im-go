@@ -6,7 +6,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/changan/websocket_gateway/message"
-	"github.com/changan/websocket_gateway/register_center"
+	"github.com/changan/websocket_gateway/register"
 	"github.com/nacos-group/nacos-sdk-go/vo"
 	"strconv"
 	"testing"
@@ -21,7 +21,7 @@ func TestNullPath(t *testing.T) {
 }
 
 func tNacos() {
-	nacos := register_center.Nacos{}
+	nacos := register.Nacos{}
 	nacos.RegisterInstance()
 	instance, err := nacos.Client.SelectOneHealthyInstance(vo.SelectOneHealthInstanceParam{
 		//Clusters:    nil,
