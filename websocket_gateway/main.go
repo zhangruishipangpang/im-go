@@ -18,6 +18,10 @@ var (
 	addr = flag.String("addr", "localhost:8080", "http service address")
 )
 
+/*
+	json :
+		{"from":1, "dest":2, "data_type":3, "data":""}
+*/
 func main() {
 	flag.Parse()
 	log.SetFlags(0)

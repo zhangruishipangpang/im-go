@@ -3,7 +3,7 @@ package http
 import (
 	"bytes"
 	"encoding/json"
-	"fmt"
+	"github.com/changan/websocket_gateway/model"
 	"github.com/changan/websocket_gateway/register"
 	"github.com/nacos-group/nacos-sdk-go/vo"
 	"io/ioutil"
@@ -20,12 +20,12 @@ type HttpProxy struct {
 	Http http.Client
 }
 
-// ResponseBody 默认的返回类型
-type ResponseBody struct {
-	Code uint32      `json:"code"`
-	Msg  string      `json:"msg"`
-	E    interface{} `json:"e"`
-}
+//// ResponseBody 默认的返回类型
+//type ResponseBody struct {
+//	Code uint32      `json:"code"`
+//	Msg  string      `json:"msg"`
+//	E    interface{} `json:"e"`
+//}
 
 // InvokeRequest 发起HTTP请求，这里只支持post json请求
 func InvokeRequest(url, method string, body interface{}, header map[string]string) []byte {
@@ -50,7 +50,7 @@ func InvokeRequest(url, method string, body interface{}, header map[string]strin
 	}
 
 	c := http.Client{
-		Timeout: 10 * time.Second,
+		Timeout: 100 * time.Second,
 	}
 	resp, err := c.Do(request)
 	if err != nil {
@@ -62,12 +62,12 @@ func InvokeRequest(url, method string, body interface{}, header map[string]strin
 	if err != nil {
 		panic(err)
 	}
-	fmt.Println(" 请求结果 ： ", string(RB))
-	fmt.Println(" = ", resp.Request.URL.String())
+	//fmt.Println(" 请求结果 ： ", string(RB))
+	//fmt.Println(" = ", resp.Request.URL.String())
 	return RB
 }
 
-func InvokeRequestFromServiceName(serviceName, path string, body interface{}, header map[string]string) ResponseBody {
+func InvokeRequestFromServiceName(serviceName, path string, body interface{}, header map[string]string) model.ResponseBody {
 	client := register.GetNacosClient()
 	instance, err := client.SelectOneHealthyInstance(vo.SelectOneHealthInstanceParam{ServiceName: serviceName})
 	if err != nil {
@@ -75,7 +75,7 @@ func InvokeRequestFromServiceName(serviceName, path string, body interface{}, he
 	}
 	host := "http://" + instance.Ip + ":" + strconv.Itoa(int(instance.Port)) + path
 	resp := InvokeRequest(host, http.MethodPost, body, header)
-	rb := &ResponseBody{}
+	rb := &model.ResponseBody{}
 	errJson := json.Unmarshal(resp, rb)
 	if errJson != nil {
 		panic(errJson)

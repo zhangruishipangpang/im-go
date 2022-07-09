@@ -18,6 +18,23 @@ func TestNullPath(t *testing.T) {
 	//p1()
 	//p2()
 	//tNacos()
+	byteToStruct()
+}
+
+type Obj struct {
+	Id   string `json:"id"`
+	Data string `json:"data"`
+}
+
+func byteToStruct() {
+	byt := []byte(`{"id":"someID","data":"str1str2"}`)
+
+	var obj Obj
+	if err := json.Unmarshal(byt, &obj); err != nil {
+		panic("error :" + err.Error())
+	}
+
+	fmt.Println(" == ", obj.Id, obj.Data)
 }
 
 func tNacos() {
