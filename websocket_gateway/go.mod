@@ -8,6 +8,7 @@ require (
 )
 
 require (
+	github.com/aceld/zinx v1.0.1 // indirect
 	github.com/aliyun/alibaba-cloud-sdk-go v1.61.18 // indirect
 	github.com/buger/jsonparser v1.1.1 // indirect
 	github.com/cespare/xxhash/v2 v2.1.2 // indirect

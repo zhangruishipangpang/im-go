@@ -5,8 +5,8 @@ package message
 */
 
 type Message struct {
-	From     uint32 `json:"from"`      // 消息来源
-	Dest     uint32 `json:"dest"`      // 消息目标
+	From     string `json:"from"`      // 消息来源
+	Dest     string `json:"dest"`      // 消息目标
 	DataType uint32 `json:"data_type"` // 消息类型
 	Data     string `json:"data"`      // 消息体
 }
@@ -17,7 +17,7 @@ const (
 	TOKEN   = 3 // token
 )
 
-func NewMessage(from uint32, dest uint32, data string) *Message {
+func NewMessage(from string, dest string, data string) *Message {
 	msg := &Message{
 		From: from,
 		Dest: dest,
@@ -26,7 +26,7 @@ func NewMessage(from uint32, dest uint32, data string) *Message {
 	return msg
 }
 
-func NewMessageContainsType(from uint32, dest uint32, DataType uint32, data string) *Message {
+func NewMessageContainsType(from string, dest string, DataType uint32, data string) *Message {
 	msg := &Message{
 		From:     from,
 		Dest:     dest,

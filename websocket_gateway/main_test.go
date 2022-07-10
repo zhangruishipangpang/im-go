@@ -6,6 +6,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/changan/websocket_gateway/message"
+	"github.com/changan/websocket_gateway/model"
 	"github.com/changan/websocket_gateway/register"
 	"github.com/nacos-group/nacos-sdk-go/vo"
 	"strconv"
@@ -18,7 +19,26 @@ func TestNullPath(t *testing.T) {
 	//p1()
 	//p2()
 	//tNacos()
-	byteToStruct()
+	//byteToStruct()
+	msgT()
+}
+
+func msgT() {
+
+	imMessage := model.ImMessage{
+		From:    "1",
+		Dest:    "2",
+		ImType:  1,
+		Msg:     "消息",
+		MsgType: 1,
+	}
+
+	jsonByte, _ := json.Marshal(imMessage)
+	fmt.Println("消息体：\n", string(jsonByte))
+
+	var imMessage2 *model.ImMessage = &model.ImMessage{}
+	json.Unmarshal(jsonByte, imMessage2)
+	fmt.Println("结构体： \n", imMessage2)
 }
 
 type Obj struct {

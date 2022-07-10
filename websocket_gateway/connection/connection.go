@@ -7,6 +7,8 @@ import (
 	"fmt"
 	"github.com/changan/websocket_gateway/auth"
 	"github.com/changan/websocket_gateway/message"
+	"github.com/changan/websocket_gateway/model"
+	"github.com/changan/websocket_gateway/mserver"
 	"github.com/changan/websocket_gateway/redis"
 	"github.com/changan/websocket_gateway/user"
 	"github.com/gorilla/websocket"
@@ -80,6 +82,7 @@ func (conn *Connection) Start() {
 			return
 		}
 
+		// 认证步骤
 		if msg.DataType == message.TOKEN {
 			if conn.isLogin {
 				sendMsg := message.NewMessage(msg.Dest, msg.From, "已经登录无需重复发送认证信息！")
@@ -109,9 +112,33 @@ func (conn *Connection) Start() {
 			redisClient.Set("USER:MSG:"+authUserMsg.UserNumber, string(userJson))
 		}
 
-		time.Sleep(2 * time.Second)
+		// 消息转发给消息服务器 TODO 这里逻辑不对
+		if msg.DataType != message.TOKEN {
+			imMessage := model.ImMessage{
+				From:    msg.From,
+				Dest:    msg.Dest,
+				ImType:  model.IM_TYPE_1_1,
+				Msg:     msg.Data,
+				MsgType: model.MSG_TYPE_TEXT,
+			}
+			server := mserver.ZinxServer{
+				Network: "tcp",
+				Address: "127.0.0.1:10001",
+			}
+			_, err := server.SendMsg(imMessage)
+			if err != nil {
+				log.Println("消息发送失败，失败信息：", err)
+				// 链接成功发送一个ping通知
+				sendMsg := message.NewMessage("1", "1", "消息发送失败，失败信息："+err.Error())
+				conn.SendMsg(sendMsg)
+				continue
+			}
+		}
+
+		time.Sleep(1 * time.Second)
+
 		// 链接成功发送一个ping通知
-		sendMsg := message.NewMessage(1, 1, " PING ")
+		sendMsg := message.NewMessage("1", "1", string(msg.DataType)+" PING ")
 		conn.SendMsg(sendMsg)
 	}
 }
